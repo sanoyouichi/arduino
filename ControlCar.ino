@@ -10,15 +10,15 @@
 #include <SparkFun_TB6612.h>   // motorを制御するためのライブラリ (https://github.com/sparkfun/SparkFun_TB6612FNG_Arduino_Library/archive/master.zip)
 #include <rgb_lcd.h>           // LCDを制御するためのライブラリ   (https://github.com/Seeed-Studio/Grove_LCD_RGB_Backlight/archive/master.zip)
 
-#define MAGNECTIC_SWITCH A3    // 磁気センサーの入力portを定義
+#define MAGNECTIC_SWITCH A3    // 磁気センサーのportを定義
 
-#define AIN1 8  //motor1の入力port
-#define AIN2 9  //motor1の入力port
-#define PWMA 5  //motor1の出力port
+#define AIN1 8  //motor1の入力portを定義
+#define AIN2 9  //motor1の入力portを定義
+#define PWMA 5  //motor1の出力portを定義
 
-#define BIN1 7  //motor2の入力port
-#define BIN2 3  //motor2の入力port
-#define PWMB 6  //motor2の出力port
+#define BIN1 7  //motor2の入力portを定義
+#define BIN2 3  //motor2の入力portを定義
+#define PWMB 6  //motor2の出力portを定義
 
 #define STBY 10
 
@@ -45,7 +45,7 @@ void setup()
     Timer1.attachInterrupt( controlMotor );  // attach the service routine here
   
     //LCD
-    pinMode(MAGNECTIC_SWITCH, INPUT);    // LCDへの入力portを定義
+    pinMode(MAGNECTIC_SWITCH, INPUT);    // LCDからの入力portを定義
     lcd.begin(16, 2);                    // LCDに表示される上限は32bitなので、表示される形を2行16列と定義
     lcd.setRGB(colorR, colorG, colorB);  // LCDの背景色を定義
     lcd.print("count is start!!");       // LCDに表示される文字（なくてもよい）
@@ -53,7 +53,7 @@ void setup()
 
 void loop()
 {
-    // 磁気検知すればturnLCDを、されなければturnOffLCDを実行
+    // 磁気検知すればturnOnLCDを、されなければturnOffLCDを実行
     if(isNearMagnet()) {
       turnOnLCD();
     } else {
@@ -64,14 +64,16 @@ void loop()
 void controlMotor()
 {
     // 赤外線反射センサーとモーターを利用
+    // 進行方向に向かって左右を決めている
+    // motor1:A1 左 motor2:A2 右
     // digitalRead(port)で、white = 0, black = 1としてコース上を走る車を制御
-    if(digitalRead(A1) == 0  && digitalRead(A2) == 1 ) {
-      left(motor1, motor2, 100);     // 左に旋回
-    } else if(digitalRead(A1) == 1  && digitalRead(A2) == 1 ) {
+    if(digitalRead(A1) == 1  && digitalRead(A2) == 1) {
       forward(motor1, motor2, 150);  // 両輪前進
-    } else if(digitalRead(A1) == 0  && digitalRead(A2) == 1 ) {
+    } else if(digitalRead(A1) == 0  && digitalRead(A2) == 1) {
+      left(motor1, motor2, 100);     // 左に旋回
+    } else if(digitalRead(A1) == 1  && digitalRead(A2) == 0) {
       right(motor1, motor2, 100);    // 右に旋回
-    } else if(digitalRead(A1) == 0  && digitalRead(A2) == 0 ) {
+    } else if(digitalRead(A1) == 0  && digitalRead(A2) == 0) {
       back(motor1, motor2, 150);     // 両輪後進
     };
 }
