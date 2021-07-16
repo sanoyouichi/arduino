@@ -36,7 +36,7 @@ const int colorR = 255;  // LCDの背景色をRGBで決定
 const int colorG = 0;    // LCDを背景色をRGBで決定
 const int colorB = 0;    // LCDを背景色をRGBで決定
 
-int  type       = 0;      // モーターの動きをtypeで管理している。詳細はturnOnLcdn参照 (1:両輪前進, 2:左に旋回, 3:右に旋回, 4:両輪後進)
+int  type       = 0;      // モーターの動きをtypeで管理している。詳細はturnOnLCD参照 (1:左に旋回, 2:両輪後進, 3:両輪前進, 4:右に旋回)
 int  count      = 0;      // 磁気を検知した回数
 bool count_flag = false;  // 磁気を初めて検知したかどうか（磁気を検知し続けるためにloop処理を使っているので、ループ処理の1回目のみカウントアップするように）
 
