@@ -84,7 +84,7 @@ void controlMotor()
     };
 }
 
-boolean isNearMagnet()
+bool isNearMagnet()
 {
     // 磁気センサーを利用
     int sensorValue = digitalRead(MAGNECTIC_SWITCH);
