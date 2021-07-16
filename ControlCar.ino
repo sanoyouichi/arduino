@@ -48,7 +48,7 @@ void setup()
   
     //LCD
     pinMode(MAGNECTIC_SWITCH, INPUT);    // 磁気センサーからの入力portを定義
-    lcd.begin(16, 2);                    // LCDに表示される上限は32bitなので、表示される形を2行16列と定義
+    lcd.begin(16, 2);                    // LCDに表示される上限は32bitなので、表示される形を16列2行と定義
     lcd.setRGB(colorR, colorG, colorB);  // LCDの背景色を定義
     lcd.print("I'm Lamborghini");        // LCDに表示される文字（なくてもよい）
 }
@@ -108,7 +108,7 @@ void turnOnLCD()
     if(count_flag == false) {
       brake(motor1, motor2);
       count = count + 1; 
-      lcd.setCursor(0, 1);
+      lcd.setCursor(0, 1);             // プリントする位置を0列1行目に設定
       lcd.print(count);
       
       if(type == 1 ){
