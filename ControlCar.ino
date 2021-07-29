@@ -68,25 +68,26 @@ void controlMotor()
     // 進行方向に向かって左右を決めている
     // motor1:A1 左 motor2:A2 右
     // digitalRead(port)で、white = 0, black = 1としてコース上を走る車を制御
+    // ただ挙動が以下のようにズレており、原因はわかっていない（配線？？）
+    // left ->forward
+    // right->back
+    // back-> left
+    // forwrd->right
+    // またモーターの左右が配線上とコード上で逆になっているので旋回の向きは逆
     if(digitalRead(left_motor) == 1  && digitalRead(right_motor) == 1) {
       type = 1;
-      left(motor1, motor2,500);     // 左に旋回
+      left(motor1, motor2,500);         // 左に旋回
     } else if(digitalRead(left_motor) == 1  && digitalRead(right_motor) == 0) {
       type = 2;
       forward(motor1, motor2, 500);     // 両輪後進
     } else if(digitalRead(left_motor) == 0  && digitalRead(right_motor) == 1) {
-      type = 3;
-      back(motor1, motor2, 500);  // 両輪前進
+      type = 3; 
+      back(motor1, motor2, 500);        // 両輪前進
     } else if(digitalRead(left_motor) == 0  && digitalRead(right_motor) == 0) {
       type = 4;
-      right(motor1, motor2, 500);    // 右に旋回
+      right(motor1, motor2, 500);       // 右に旋回
     };
 }
-
-//left ->forward
-//right->back
-//back-> left
-//forwrd->right
 
 bool isNearMagnet()
 {
@@ -112,15 +113,15 @@ void turnOnLCD()
     if(count_flag == false) {
       brake(motor1, motor2);
       count = count + 1; 
-      lcd.setCursor(0, 1);             // プリントする位置を0列1行目に設定
+      lcd.setCursor(0, 1);             // プリントする位置を0列1行目に設定(プログラミングでは0が最初なので１行目を指定すると見た目は２行目に表示される)
       lcd.print(count);
       
       if(type == 1 ){
-        left(motor1, motor2,250);     // 左に旋回
+        left(motor1, motor2,250);      // 左に旋回
       } else if(type == 2){
-        forward(motor1, motor2, 250);     // 両輪後進
+        forward(motor1, motor2, 250);  // 両輪後進
       } else if(type == 3){
-        back(motor1, motor2, 250);  // 両輪前進
+        back(motor1, motor2, 250);     // 両輪前進
       } else if(type == 4){
         right(motor1, motor2, 250);    // 右に旋回
       }
