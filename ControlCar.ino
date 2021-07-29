@@ -66,7 +66,7 @@ void controlMotor()
 {
     // 赤外線反射センサーとモーターを利用
     // 進行方向に向かって左右を決めている
-    // motor1:A1 左 motor2:A2 右
+    // motor1:左 motor2:右
     // digitalRead(port)で、white = 0, black = 1としてコース上を走る車を制御
     // ただ挙動が以下のようにズレており、原因はわかっていない（配線？？）
     // left ->forward
@@ -79,10 +79,10 @@ void controlMotor()
       left(motor1, motor2,500);         // 左に旋回
     } else if(digitalRead(left_motor) == 1  && digitalRead(right_motor) == 0) {
       type = 2;
-      forward(motor1, motor2, 500);     // 両輪後進
+      forward(motor1, motor2, 500);     // 両輪前進
     } else if(digitalRead(left_motor) == 0  && digitalRead(right_motor) == 1) {
       type = 3; 
-      back(motor1, motor2, 500);        // 両輪前進
+      back(motor1, motor2, 500);        // 両輪後進
     } else if(digitalRead(left_motor) == 0  && digitalRead(right_motor) == 0) {
       type = 4;
       right(motor1, motor2, 500);       // 右に旋回
@@ -119,12 +119,17 @@ void turnOnLCD()
       if(type == 1 ){
         left(motor1, motor2,250);      // 左に旋回
       } else if(type == 2){
-        forward(motor1, motor2, 250);  // 両輪後進
+        forward(motor1, motor2, 250);  // 両輪前進
       } else if(type == 3){
-        back(motor1, motor2, 250);     // 両輪前進
+        back(motor1, motor2, 250);     // 両輪後進
       } else if(type == 4){
         right(motor1, motor2, 250);    // 右に旋回
       }
+
+      // 磁石の上を車体が通る前にセンサーが一回検知する。
+      // その後車体が上向きになり、センサーが検知しなくなる。
+      // その後車体が下向きになり、また検知される。
+      // という流れで検知回数がダブるので一度カウントアップしたあとは2000ms待つように
       delay(2000);
     }
     
