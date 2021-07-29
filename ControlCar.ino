@@ -26,13 +26,13 @@
 #define left_motor 6   // 左のモータへの出力portを定義
 
 const int offsetA = 1;   // motorの定義ファイルの種類を選択
-const int offsetB = -1;  // motorの定義ファイルの種類を選択
+const int offsetB = 1;  // motorの定義ファイルの種類を選択
 
 Motor motor1 = Motor(AIN1, AIN2, PWMA, offsetA, STBY);  //motor1を定義
 Motor motor2 = Motor(BIN1, BIN2, PWMB, offsetB, STBY);  //motor2を定義
 
 rgb_lcd lcd;             // LCDを制御するためのクラスをlcdと命名(命名しないのであれば、lcdの箇所をrgb_lcdとすればよい)
-const int colorR = 255;  // LCDの背景色をRGBで決定
+const int colorR = 139;  // LCDの背景色をRGBで決定
 const int colorG = 0;    // LCDを背景色をRGBで決定
 const int colorB = 0;    // LCDを背景色をRGBで決定
 
@@ -43,9 +43,8 @@ bool count_flag = false;  // 磁気を初めて検知したかどうか（磁気
 void setup() 
 {
     // MOTOR
-    Timer1.initialize(100000);               // 赤外線反射センサーが検知する単位時間（ms）
+    Timer1.initialize(100);               // 赤外線反射センサーが検知する単位時間（ms）
     Timer1.attachInterrupt( controlMotor );  // attach the service routine here
-  
     //LCD
     pinMode(MAGNECTIC_SWITCH, INPUT);    // 磁気センサーからの入力portを定義
     lcd.begin(16, 2);                    // LCDに表示される上限は32bitなので、表示される形を16列2行と定義
@@ -71,18 +70,23 @@ void controlMotor()
     // digitalRead(port)で、white = 0, black = 1としてコース上を走る車を制御
     if(digitalRead(left_motor) == 1  && digitalRead(right_motor) == 1) {
       type = 1;
-      left(motor1, motor2, 100);     // 左に旋回
+      left(motor1, motor2,500);     // 左に旋回
     } else if(digitalRead(left_motor) == 1  && digitalRead(right_motor) == 0) {
       type = 2;
-      back(motor1, motor2, 200);     // 両輪後進
+      forward(motor1, motor2, 500);     // 両輪後進
     } else if(digitalRead(left_motor) == 0  && digitalRead(right_motor) == 1) {
       type = 3;
-      forward(motor1, motor2, 150);  // 両輪前進
+      back(motor1, motor2, 500);  // 両輪前進
     } else if(digitalRead(left_motor) == 0  && digitalRead(right_motor) == 0) {
       type = 4;
-      right(motor1, motor2, 100);    // 右に旋回
+      right(motor1, motor2, 500);    // 右に旋回
     };
 }
+
+//left ->forward
+//right->back
+//back-> left
+//forwrd->right
 
 bool isNearMagnet()
 {
@@ -112,14 +116,15 @@ void turnOnLCD()
       lcd.print(count);
       
       if(type == 1 ){
-        left(motor1, motor2, 100);     // 左に旋回
+        left(motor1, motor2,250);     // 左に旋回
       } else if(type == 2){
-        back(motor1, motor2, 200);     // 両輪後進
+        forward(motor1, motor2, 250);     // 両輪後進
       } else if(type == 3){
-        forward(motor1, motor2, 150);  // 両輪前進
+        back(motor1, motor2, 250);  // 両輪前進
       } else if(type == 4){
-        right(motor1, motor2, 100);    // 右に旋回
+        right(motor1, motor2, 250);    // 右に旋回
       }
+      delay(2000);
     }
     
     // loop処理での2回目以降はカウントアップ済みとしてカウントアップしないように
