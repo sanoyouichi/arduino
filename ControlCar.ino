@@ -22,10 +22,10 @@
 
 #define STBY 10  
 
-#define right_motor 8  // 右のモータへの出力portを定義
-#define left_motor 6   // 左のモータへの出力portを定義
+#define right_motor 8   // 右のモータへの出力portを定義
+#define left_motor 6    // 左のモータへの出力portを定義
 
-const int offsetA = 1;   // motorの定義ファイルの種類を選択
+const int offsetA = 1;  // motorの定義ファイルの種類を選択
 const int offsetB = 1;  // motorの定義ファイルの種類を選択
 
 Motor motor1 = Motor(AIN1, AIN2, PWMA, offsetA, STBY);  //motor1を定義
@@ -43,13 +43,13 @@ bool count_flag = false;  // 磁気を初めて検知したかどうか（磁気
 void setup() 
 {
     // MOTOR
-    Timer1.initialize(100);               // 赤外線反射センサーが検知する単位時間（ms）
+    Timer1.initialize(100);                  // 赤外線反射センサーが検知する単位時間（ms）
     Timer1.attachInterrupt( controlMotor );  // attach the service routine here
-    //LCD
-    pinMode(MAGNECTIC_SWITCH, INPUT);    // 磁気センサーからの入力portを定義
-    lcd.begin(16, 2);                    // LCDに表示される上限は32bitなので、表示される形を16列2行と定義
-    lcd.setRGB(colorR, colorG, colorB);  // LCDの背景色を定義
-    lcd.print("I'm Lamborghini");        // LCDに表示される文字（なくてもよい）
+    // LCD
+    pinMode(MAGNECTIC_SWITCH, INPUT);        // 磁気センサーからの入力portを定義
+    lcd.begin(16, 2);                        // LCDに表示される上限は32bitなので、表示される形を16列2行と定義
+    lcd.setRGB(colorR, colorG, colorB);      // LCDの背景色を定義
+    lcd.print("I'm Lamborghini");            // LCDに表示される文字（なくてもよい）
 }
 
 void loop()
@@ -105,7 +105,7 @@ void turnOnLCD()
     // 磁気センサーを利用
     // loop処理での1回目のみカウントアップ
     // (磁気センサーはloop処理の中で検知し続けるので制御しなければ
-    //  検知範囲内に磁石がある限りカウントし続け16桁以上の数値をプリントする）
+    // 検知範囲内に磁石がある限りカウントし続け16桁以上の数値をプリントする）
     // モーターを回しながらLCDを制御しようとすると、電池供給不足を起こし回路全体が止まってしまうことがあった
     // 対応として、カウントアップがあった際にモーターを止めてLCDを書き換え、それまでのモーターの動きを引き継ぐ
     // 引き継ぐためにモーターの動きをtypeで管理している
