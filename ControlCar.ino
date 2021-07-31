@@ -10,7 +10,7 @@
 #include <SparkFun_TB6612.h>   // motorを制御するためのライブラリ (https://github.com/sparkfun/SparkFun_TB6612FNG_Arduino_Library/archive/master.zip)
 #include <rgb_lcd.h>           // LCDを制御するためのライブラリ   (https://github.com/Seeed-Studio/Grove_LCD_RGB_Backlight/archive/master.zip)
 
-#define MAGNECTIC_SWITCH 7     // 磁気センサーのportを定義(今回はD2)
+#define MAGNECTIC_SWITCH 7     // 磁気センサーのportを定義(今回はD7)
 
 #define AIN1 12  // motor1の入力portを定義
 #define AIN2 9   // motor1の入力portを定義
